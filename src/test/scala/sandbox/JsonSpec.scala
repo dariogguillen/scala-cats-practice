@@ -1,10 +1,10 @@
-package sandbox.Json
+package sandbox
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-import sandbox.Json.JsonWriterInstances._
-import sandbox.Json.JsonSyntax._
+import JsonWriterInstances._
+import JsonSyntax._
 
 class JsonSpec extends AnyWordSpecLike with Matchers {
 
@@ -29,6 +29,10 @@ class JsonSpec extends AnyWordSpecLike with Matchers {
 
       person.asJson shouldBe personJson
       Json.toJson(person) shouldBe personJson
+    }
+    "write a json from option" in {
+      Option("hola").asJson shouldBe JsonString("hola")
+      Option(1.0).asJson shouldBe JsonNumber(1.0)
     }
   }
 }

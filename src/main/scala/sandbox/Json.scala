@@ -1,4 +1,4 @@
-package sandbox.Json
+package sandbox
 
 trait Json
 case class JsonObject(value: Map[String, Json]) extends Json
@@ -50,6 +50,15 @@ object JsonWriterInstances {
       )
     )
   }
+
+  implicit def optionWriter[A](implicit jsonWriter: JsonWriter[A]): JsonWriter[Option[A]] =
+    new JsonWriter[Option[A]] {
+
+      override def write(value: Option[A]): Json = value match {
+        case Some(value) => jsonWriter.write(value)
+        case None        => JsonNull
+      }
+    }
 }
 
 object JsonSyntax {
